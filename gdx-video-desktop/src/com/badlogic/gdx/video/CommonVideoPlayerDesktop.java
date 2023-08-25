@@ -89,22 +89,19 @@ abstract public class CommonVideoPlayerDesktop implements VideoPlayer {
 		VideoDecoderBuffers buffers;
 		try {
 			buffers = decoder.loadFile(file.path());
+			if (buffers == null) return false;
 
-			if (buffers != null) {
-				ByteBuffer audioBuffer = buffers.getAudioBuffer();
-				if (audioBuffer != null) {
-					if (audio != null) audio.dispose();
-					audio = createMusic(decoder, audioBuffer, buffers.getAudioChannels(), buffers.getAudioSampleRate());
-				}
-				currentVideoWidth = buffers.getVideoWidth();
-				currentVideoHeight = buffers.getVideoHeight();
-				videoBufferWidth = buffers.getVideoBufferWidth();
-				if (texture != null && (texture.getWidth() != getTextureWidth() || texture.getHeight() != getTextureHeight())) {
-					texture.dispose();
-					texture = null;
-				}
-			} else {
-				return false;
+			ByteBuffer audioBuffer = buffers.getAudioBuffer();
+			if (audioBuffer != null) {
+				if (audio != null) audio.dispose();
+				audio = createMusic(decoder, audioBuffer, buffers.getAudioChannels(), buffers.getAudioSampleRate());
+			}
+			currentVideoWidth = buffers.getVideoWidth();
+			currentVideoHeight = buffers.getVideoHeight();
+			videoBufferWidth = buffers.getVideoBufferWidth();
+			if (texture != null && (texture.getWidth() != getTextureWidth() || texture.getHeight() != getTextureHeight())) {
+				texture.dispose();
+				texture = null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

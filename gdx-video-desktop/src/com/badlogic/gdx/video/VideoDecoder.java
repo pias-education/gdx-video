@@ -146,6 +146,8 @@ public class VideoDecoder implements Disposable {
 			VideoBufferInfo bufferInfo;
             memset(&bufferInfo, 0, sizeof(VideoBufferInfo));
 
+            logError("[wrapped_Java_com_badlogic_gdx_video_VideoDecoder_loadFile] Path is %s .\n", filePath);
+
             pointer->loadFile(filePath, &bufferInfo);
             jobject videoBuffer = NULL;
             jobject audioBuffer = NULL;
@@ -158,7 +160,7 @@ public class VideoDecoder implements Disposable {
 
             jclass cls = env->FindClass("com/badlogic/gdx/video/VideoDecoder$VideoDecoderBuffers");
             if(cls == NULL) {
-                logError("[wrapped_Java_com_badlogic_gdx_videoVideoDecoder_loadFile] Could not find VideoDecoderBuffers class");
+                logError("[wrapped_Java_com_badlogic_gdx_video_VideoDecoder_loadFile] Could not find VideoDecoderBuffers class");
                 return NULL;
             }
             jmethodID constructor = env->GetMethodID(cls, "<init>", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;IIIII)V");

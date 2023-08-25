@@ -26,8 +26,8 @@ import java.nio.ByteBuffer;
  *
  * @author Rob Bogie <rob.bogie@codepoke.net> */
 class RawMusic extends OpenALMusic {
-	VideoDecoder decoder;
-	ByteBuffer backBuffer;
+	volatile VideoDecoder decoder;
+	volatile ByteBuffer backBuffer;
 
 	public RawMusic (VideoDecoder decoder, ByteBuffer buffer, int channels, int sampleRate) {
 		super((OpenALLwjgl3Audio)Gdx.audio, null);
@@ -39,6 +39,8 @@ class RawMusic extends OpenALMusic {
 
 	@Override
 	public int read (byte[] buffer) {
+		if(decoder == null) return 0;
+
 		int sizeNeeded = buffer.length;
 		int currentIndex = 0;
 
@@ -63,4 +65,10 @@ class RawMusic extends OpenALMusic {
 
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		decoder = null;
+		backBuffer = null;
+	}
 }
