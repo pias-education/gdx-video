@@ -25,7 +25,7 @@ public abstract class AbstractVideoPlayer implements VideoPlayer {
 
 	@Override
 	public void setFilter (TextureFilter minFilter, TextureFilter magFilter) {
-		if (this.minFilter == minFilter && this.magFilter == magFilter) return;
+		if (  this.minFilter == minFilter && this.magFilter == magFilter) return;
 		this.minFilter = minFilter;
 		this.magFilter = magFilter;
 		Texture texture = getTexture();
