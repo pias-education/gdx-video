@@ -41,6 +41,7 @@ android {
 		targetSdkVersion project.targetSdk
 		versionCode 1
 		versionName "1.0"
+		multiDexEnabled true
 	}
 }
 
@@ -56,6 +57,7 @@ dependencies {
 	implementation project(':test:core')
 	implementation project(':gdx-video-android')
 	implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+	implementation "androidx.multidex:multidex:2.0.1"
 
 	natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
 	natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"

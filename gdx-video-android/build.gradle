@@ -25,14 +25,15 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     api project(":gdx-video-core")
     api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+    implementation "androidx.media3:media3-exoplayer:$media3Version"
 }
 
 eclipse.project {
