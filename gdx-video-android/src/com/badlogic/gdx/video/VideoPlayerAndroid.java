@@ -78,7 +78,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 		transform = new Matrix4().setToOrtho2D(0, 0, 1, 1);
 	}
 
-	private void queueSetup() {
+	private void queueSetup () {
 		Gdx.app.postRunnable(this::setupRenderer);
 	}
 
@@ -121,7 +121,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	private void initializeMediaPlayer () {
 		if (handler == null) handler = new Handler(Looper.getMainLooper());
 
-		handler.post(() -> {
+		handler.post( () -> {
 			player = new ExoPlayer.Builder(((AndroidApplication)Gdx.app).getContext()).build();
 			videoTexture = new SurfaceTexture(textures[0]);
 			videoTexture.setOnFrameAvailableListener(this);
@@ -131,7 +131,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 		});
 	}
 
-	private void internalPlay(FileHandle file) {
+	private void internalPlay (FileHandle file) {
 		// If we haven't finished loading the media player yet, wait without blocking.
 		if (!initialized) {
 			postPlay(file);
@@ -147,7 +147,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 
 		player.addListener(new Player.Listener() {
 			@Override
-			public void onPlayerError(PlaybackException error) {
+			public void onPlayerError (PlaybackException error) {
 				error.printStackTrace();
 			}
 
@@ -159,7 +159,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 				if (sizeListener != null) {
 					sizeListener.onVideoSize(videoWidth, videoHeight);
 				}
-				Gdx.app.postRunnable(() -> {
+				Gdx.app.postRunnable( () -> {
 					if (fbo != null && (fbo.getWidth() != videoWidth || fbo.getHeight() != videoHeight)) {
 						fbo.dispose();
 						fbo = null;
@@ -185,20 +185,20 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 			}
 
 			@Override
-			public void onPlaybackStateChanged(int playbackState) {
+			public void onPlaybackStateChanged (int playbackState) {
 				switch (playbackState) {
-					case Player.STATE_READY:
-						onPrepared(player);
-						break;
-					case Player.STATE_ENDED:
-						onCompletion(player);
-						break;
-					default:
+				case Player.STATE_READY:
+					onPrepared(player);
+					break;
+				case Player.STATE_ENDED:
+					onCompletion(player);
+					break;
+				default:
 				}
 			}
 
 			@Override
-			public void onIsPlayingChanged(boolean isPlaying) {
+			public void onIsPlayingChanged (boolean isPlaying) {
 				VideoPlayerAndroid.this.isPlaying = isPlaying;
 			}
 		});
@@ -214,8 +214,8 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 		player.prepare();
 	}
 
-	private void postPlay(final FileHandle file) {
-		handler.post(() -> internalPlay(file));
+	private void postPlay (final FileHandle file) {
+		handler.post( () -> internalPlay(file));
 	}
 
 	@Override
@@ -245,7 +245,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 		frameAvailable = false;
 		videoTexture.updateTexImage();
 
-		if(!renderToFbo) return true;
+		if (!renderToFbo) return true;
 
 		fbo.begin();
 		shader.bind();
@@ -289,7 +289,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	@Override
 	public void stop () {
 		if (player != null) {
-			handler.post(() -> player.stop());
+			handler.post( () -> player.stop());
 		}
 		stopped = true;
 		prepared = false;
@@ -305,7 +305,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	public void pause () {
 		// If it is running
 		if (prepared) {
-			handler.post(() -> player.pause());
+			handler.post( () -> player.pause());
 		} else {
 			pauseRequested = true;
 		}
@@ -315,7 +315,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	public void resume () {
 		// If it is running
 		if (prepared) {
-			handler.post(() -> player.play());
+			handler.post( () -> player.play());
 		}
 		pauseRequested = false;
 	}
@@ -373,7 +373,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	@Override
 	public void setVolume (float volume) {
 		currentVolume = volume;
-		handler.post(() -> player.setVolume(volume));
+		handler.post( () -> player.setVolume(volume));
 	}
 
 	@Override
@@ -385,7 +385,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	public void setLooping (boolean looping) {
 		isLooping = looping;
 		int repeatMode = looping ? Player.REPEAT_MODE_ONE : Player.REPEAT_MODE_OFF;
-		handler.post(() -> player.setRepeatMode(repeatMode));
+		handler.post( () -> player.setRepeatMode(repeatMode));
 	}
 
 	@Override
