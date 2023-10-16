@@ -16,11 +16,15 @@
 
 package com.badlogic.gdx.video;
 
+import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.graphics.SurfaceTexture.OnFrameAvailableListener;
+import android.media.MediaCodecInfo;
+import android.media.MediaCodecList;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.view.Surface;
 
@@ -28,7 +32,24 @@ import androidx.media3.common.Format;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.Renderer;
+import androidx.media3.exoplayer.RenderersFactory;
+import androidx.media3.exoplayer.audio.AudioRendererEventListener;
+import androidx.media3.exoplayer.audio.MediaCodecAudioRenderer;
+import androidx.media3.exoplayer.mediacodec.MediaCodecSelector;
+import androidx.media3.exoplayer.metadata.MetadataOutput;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.exoplayer.source.MediaSource;
+import androidx.media3.exoplayer.source.MediaSourceFactory;
+import androidx.media3.exoplayer.text.TextOutput;
+import androidx.media3.exoplayer.video.MediaCodecVideoRenderer;
+import androidx.media3.exoplayer.video.VideoRendererEventListener;
+import androidx.media3.extractor.Extractor;
+import androidx.media3.extractor.ExtractorsFactory;
+import androidx.media3.extractor.mkv.MatroskaExtractor;
+import androidx.media3.extractor.mp4.Mp4Extractor;
 
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
@@ -118,11 +139,30 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 		queueSetup();
 	}
 
+	static synchronized void initializeThread() {
+		if (handler == null) {
+			HandlerThread t = new HandlerThread("gdx-video");
+			t.start();
+			handler = new Handler(t.getLooper());
+		}
+	}
+
 	private void initializeMediaPlayer () {
-		if (handler == null) handler = new Handler(Looper.getMainLooper());
+		initializeThread();
 
 		handler.post( () -> {
-			player = new ExoPlayer.Builder(((AndroidApplication)Gdx.app).getContext()).build();
+			Context ctx = ((AndroidApplication)Gdx.app).getContext();
+
+			RenderersFactory rf = (eventHandler, videoRendererEventListener, audioRendererEventListener, textRendererOutput, metadataRendererOutput) -> new Renderer[] {
+					new MediaCodecAudioRenderer(ctx, MediaCodecSelector.DEFAULT, eventHandler, audioRendererEventListener),
+					new MediaCodecVideoRenderer(ctx, MediaCodecSelector.DEFAULT, 5000L, true, eventHandler, videoRendererEventListener, 5)
+			};
+			MediaSource.Factory msf = new DefaultMediaSourceFactory(ctx, () -> new Extractor[] {
+					new Mp4Extractor(),
+					new MatroskaExtractor()
+			});
+
+			player = new ExoPlayer.Builder(ctx, rf, msf).build();
 			videoTexture = new SurfaceTexture(textures[0]);
 			videoTexture.setOnFrameAvailableListener(this);
 			surface = new Surface(videoTexture);
@@ -298,7 +338,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	@Override
 	public void onFrameAvailable (SurfaceTexture surfaceTexture) {
 		frameAvailable = true;
-		currentTimestamp = (int)player.getCurrentPosition();
+		if(prepared) currentTimestamp = (int)player.getCurrentPosition();
 	}
 
 	@Override
@@ -323,21 +363,22 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	@Override
 	public void dispose () {
 		stop();
-		surface = null;
-		handler.post(new Runnable() {
-			@Override
-			public void run () {
-				player.release();
-				player = null;
-			}
+		handler.post(() -> {
+			if(player == null) return;
+
+			player.setVideoSurface(null);
+			surface = null;
+			player.release();
+			player = null;
+
+			Gdx.app.postRunnable(() -> {
+				videoTexture.detachFromGLContext();
+				GLES20.glDeleteTextures(1, textures, 0);
+			});
 		});
 
-		if (videoTexture != null) {
-			videoTexture.detachFromGLContext();
-			GLES20.glDeleteTextures(1, textures, 0);
-		}
-
 		if (fbo != null) fbo.dispose();
+		fbo = null;
 		frame = null;
 		if (renderer != null) {
 			renderer.dispose();

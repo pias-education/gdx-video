@@ -33,7 +33,7 @@ android {
 dependencies {
     api project(":gdx-video-core")
     api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
-    implementation "androidx.media3:media3-exoplayer:$media3Version"
+    api "androidx.media3:media3-exoplayer:$media3Version"
 }
 
 eclipse.project {
