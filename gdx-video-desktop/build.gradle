@@ -85,7 +85,8 @@ void registerBuild(String buildName, String crossToolchain, String... extraArgs)
 registerBuild 'Windows32', 'i686-w64-mingw32', '--arch=x86', '--target-os=mingw32'
 registerBuild 'Windows64', 'x86_64-w64-mingw32', '--arch=x86_64', '--target-os=mingw32'
 
-registerBuild 'Linux64', 'x86_64-linux-gnu', '--arch=x86_64', '--target-os=linux', '--disable-cuda', '--disable-cuvid'
+registerBuild 'Linux64', 'x86_64-linux-gnu', '--arch=x86_64', '--target-os=linux', '--disable-cuda', '--disable-cuvid',
+        '--enable-libdav1d', '--enable-decoder=libdav1d'
 
 registerBuild 'LinuxARM32', 'arm-linux-gnueabihf', '--arch=arm', '--target-os=linux'
 registerBuild 'LinuxARM64', 'aarch64-linux-gnu', '--arch=aarch64', '--target-os=linux'
@@ -127,7 +128,7 @@ jnigen {
     }
     add(Linux, x64) {
         headerDirs += "../FFmpeg/build-linux64/"
-        libraries += genLibs("linux64")
+        libraries += genLibs("linux64") + " -ldav1d "
         compilerPrefix = checkCrossPrefix('x86_64-linux-gnu')
         linkerFlags += " -Wl,-Bsymbolic "
     }
