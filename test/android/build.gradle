@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
 	compileSdkVersion = project.compileSdk
+	buildToolsVersion = project.buildTools
+
 	ndkVersion "21.4.7075529"
 	sourceSets {
 		main {
