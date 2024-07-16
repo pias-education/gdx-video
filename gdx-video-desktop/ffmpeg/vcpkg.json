@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "ffmpeg",
+      "features": [
+        "dav1d"
+      ]
+    }
+  ],
+  "overrides": [
+    { 
+        "name": "ffmpeg", 
+        "version": "5.1.2#10"
+    }
+  ]
+}
