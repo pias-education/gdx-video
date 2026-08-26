@@ -333,7 +333,10 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	@Override
 	public void dispose () {
 		stop();
-		surface = null;
+		if(surface != null){
+			surface.release();
+			surface = null;
+		}
 		handler.post(new Runnable() {
 			@Override
 			public void run () {
