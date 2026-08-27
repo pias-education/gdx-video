@@ -1,3 +1,66 @@
+> [!NOTE]
+> This is the PiAS Education fork of
+> [libgdx/gdx-video](https://github.com/libgdx/gdx-video).
+>
+> The PiAS release `1.3.3-pias1` is based on upstream `1.3.3` and contains
+> an Android-specific resource cleanup fix:
+>
+> `VideoPlayerAndroid.dispose()` explicitly calls `Surface.release()`
+> before clearing the Surface reference.
+>
+> This prevents Android `Surface` resources from being left for
+> garbage collection/finalization after video playback.
+>
+> Source tag: `1.3.3-pias1`
+>
+> PiAS builds are published to the private PiAS Forgejo Maven package
+> registry. The upstream project and its official releases remain available
+> from the original libGDX repositories.
+
+
+## PiAS releases
+
+### 1.3.3-pias1
+
+Based on upstream `gdx-video` `1.3.3`.
+
+Changes:
+
+- Android: explicitly release the `Surface` in
+  `VideoPlayerAndroid.dispose()`.
+
+Published Maven artifacts:
+
+```text
+com.badlogicgames.gdx-video:gdx-video:1.3.3-pias1
+com.badlogicgames.gdx-video:gdx-video-android:1.3.3-pias1
+```
+
+### Publishing a PiAS release
+
+Publishing requires Java 17 and a Forgejo access token with
+`package: Read and Write`.
+
+Credentials can be supplied as Gradle properties:
+
+```properties
+FORGEJO_USERNAME=<username>
+FORGEJO_TOKEN=<token>
+```
+
+or as environment variables with the same names.
+
+To publish the PiAS core and Android artifacts as a release:
+
+```text
+JAVA_HOME=/path/to/java17 ./gradlew \
+  :gdx-video-core:publishMavenJavaPublicationToForgejoRepository \
+  :gdx-video-android:publishMavenJavaPublicationToForgejoRepository \
+  -PPIAS_RELEASE
+```
+
+
+
 # GDX-Video
 
 ![GitHub Workflow Status (master)](https://img.shields.io/github/workflow/status/libgdx/gdx-video/Publish%20Snapshot/master?label=master)
