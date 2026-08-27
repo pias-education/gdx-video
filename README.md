@@ -17,6 +17,14 @@
 > registry. The upstream project and its official releases remain available
 > from the original libGDX repositories.
 
+# GDX-Video
+
+![GitHub Workflow Status (master)](https://img.shields.io/github/workflow/status/libgdx/gdx-video/Publish%20Snapshot/master?label=master)
+
+[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/com.badlogicgames.gdx-video/gdx-video?nexusVersion=2&server=https%3A%2F%2Foss.sonatype.org&label=release)](https://search.maven.org/artifact/com.badlogicgames.gdx-video/gdx-video)
+[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.badlogicgames.gdx-video/gdx-video?server=https%3A%2F%2Foss.sonatype.org&label=snapshot)](https://oss.sonatype.org/#nexus-search;gav~com.badlogicgames.gdx-video~gdx-video~~~~kw,versionexpand)
+
+A libGDX cross platform video rendering extension
 
 ## PiAS releases
 
@@ -62,14 +70,10 @@ Without -PPIAS_RELEASE, the build version receives the -SNAPSHOT
 suffix.
 
 
-# GDX-Video
+## Upstream releases
 
-![GitHub Workflow Status (master)](https://img.shields.io/github/workflow/status/libgdx/gdx-video/Publish%20Snapshot/master?label=master)
+Official upstream builds are available from the following repositories:
 
-[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/com.badlogicgames.gdx-video/gdx-video?nexusVersion=2&server=https%3A%2F%2Foss.sonatype.org&label=release)](https://search.maven.org/artifact/com.badlogicgames.gdx-video/gdx-video)
-[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.badlogicgames.gdx-video/gdx-video?server=https%3A%2F%2Foss.sonatype.org&label=snapshot)](https://oss.sonatype.org/#nexus-search;gav~com.badlogicgames.gdx-video~gdx-video~~~~kw,versionexpand)
-
-A libGDX cross platform video rendering extension
 
 ## Contents
 * [Getting Started](#getting-started)
