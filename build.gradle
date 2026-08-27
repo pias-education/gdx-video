@@ -70,7 +70,7 @@ allprojects {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
 
-    version project.getProperty('version') + (isReleaseBuild() ? "" : "-SNAPSHOT")
+    version project.getProperty('version') + ((isReleaseBuild() || project.hasProperty("PIAS_RELEASE") )? "" : "-SNAPSHOT")
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'

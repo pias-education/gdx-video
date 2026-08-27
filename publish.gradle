@@ -68,6 +68,17 @@ configure([
                                     }
                                 }
                             }
+
+                            maven{
+                                name = "forgejo"
+                                url = uri("https://git.pias-education.com/api/packages/pias/maven")
+                                credentials {
+                                    username = project.findProperty("FORGEJO_USERNAME")
+                                            ?: System.getenv("FORGEJO_USERNAME")
+                                    password = project.findProperty("FORGEJO_TOKEN")
+                                            ?: System.getenv("FORGEJO_TOKEN")
+                                }
+                            }
                         }
                     }
 
