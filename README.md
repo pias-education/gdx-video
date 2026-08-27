@@ -58,7 +58,8 @@ JAVA_HOME=/path/to/java17 ./gradlew \
   :gdx-video-android:publishMavenJavaPublicationToForgejoRepository \
   -PPIAS_RELEASE
 ```
-
+Without -PPIAS_RELEASE, the build version receives the -SNAPSHOT
+suffix.
 
 
 # GDX-Video
