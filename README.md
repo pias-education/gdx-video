@@ -55,8 +55,13 @@ Credentials can be supplied as Gradle properties:
 FORGEJO_USERNAME=<username>
 FORGEJO_TOKEN=<token>
 ```
-
 or as environment variables with the same names.
+
+Do not store the token in this repository or in the project's
+`gradle.properties`.
+
+Source: https://github.com/pias-education/gdx-video
+Tag: `1.3.3-pias1`
 
 To publish the PiAS core and Android artifacts as a release:
 
