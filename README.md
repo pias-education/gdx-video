@@ -1,3 +1,10 @@
+# GDX-Video
+
+[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/com.badlogicgames.gdx-video/gdx-video?nexusVersion=2&server=https%3A%2F%2Foss.sonatype.org&label=release)](https://search.maven.org/artifact/com.badlogicgames.gdx-video/gdx-video)
+[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.badlogicgames.gdx-video/gdx-video?server=https%3A%2F%2Foss.sonatype.org&label=snapshot)](https://oss.sonatype.org/#nexus-search;gav~com.badlogicgames.gdx-video~gdx-video~~~~kw,versionexpand)
+
+A libGDX cross platform video rendering extension
+
 > [!NOTE]
 > This is the PiAS Education fork of
 > [libgdx/gdx-video](https://github.com/libgdx/gdx-video).
@@ -17,15 +24,6 @@
 > registry. The upstream project and its official releases remain available
 > from the original libGDX repositories.
 
-# GDX-Video
-
-![GitHub Workflow Status (master)](https://img.shields.io/github/workflow/status/libgdx/gdx-video/Publish%20Snapshot/master?label=master)
-
-[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/com.badlogicgames.gdx-video/gdx-video?nexusVersion=2&server=https%3A%2F%2Foss.sonatype.org&label=release)](https://search.maven.org/artifact/com.badlogicgames.gdx-video/gdx-video)
-[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.badlogicgames.gdx-video/gdx-video?server=https%3A%2F%2Foss.sonatype.org&label=snapshot)](https://oss.sonatype.org/#nexus-search;gav~com.badlogicgames.gdx-video~gdx-video~~~~kw,versionexpand)
-
-A libGDX cross platform video rendering extension
-
 ## PiAS releases
 
 ### 1.3.3-pias1
@@ -43,6 +41,10 @@ Published Maven artifacts:
 com.badlogicgames.gdx-video:gdx-video:1.3.3-pias1
 com.badlogicgames.gdx-video:gdx-video-android:1.3.3-pias1
 ```
+
+The PiAS application uses the patched `gdx-video-android` artifact.
+Its core and RoboVM dependencies continue to use the official upstream
+version `1.3.3`.
 
 ### Publishing a PiAS release
 
@@ -65,20 +67,14 @@ Tag: `1.3.3-pias1`
 
 To publish the PiAS core and Android artifacts as a release:
 
-```text
+```bash
 JAVA_HOME=/path/to/java17 ./gradlew \
   :gdx-video-core:publishMavenJavaPublicationToForgejoRepository \
   :gdx-video-android:publishMavenJavaPublicationToForgejoRepository \
   -PPIAS_RELEASE
 ```
-Without -PPIAS_RELEASE, the build version receives the -SNAPSHOT
+Without `-PPIAS_RELEASE`, the build version receives the `-SNAPSHOT`
 suffix.
-
-
-## Upstream releases
-
-Official upstream builds are available from the following repositories:
-
 
 ## Contents
 * [Getting Started](#getting-started)
