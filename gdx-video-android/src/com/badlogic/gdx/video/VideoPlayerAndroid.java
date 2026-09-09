@@ -333,7 +333,7 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 	@Override
 	public void dispose () {
 		stop();
-		if(surface != null){
+		if (surface != null) {
 			surface.release();
 			surface = null;
 		}
@@ -347,6 +347,8 @@ public class VideoPlayerAndroid extends AbstractVideoPlayer implements VideoPlay
 
 		if (videoTexture != null) {
 			videoTexture.detachFromGLContext();
+			videoTexture.release();
+			videoTexture = null;
 			GLES20.glDeleteTextures(1, textures, 0);
 		}
 
